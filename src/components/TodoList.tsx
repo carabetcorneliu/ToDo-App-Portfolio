@@ -1,52 +1,31 @@
 import DeleteButton from "./DeleteButton";
 
-const initialTodoList = [
-  {
-    text: "buy groceries",
-    isCompleted: false,
-  },
-  {
-    text: "do laundry",
-    isCompleted: true,
-  },
-  {
-    text: "study for tommorrow's exam",
-    isCompleted: false,
-  },
-  {
-    text: "go out for a walk",
-    isCompleted: true,
-  },
-  {
-    text: "read a few pages in the book",
-    isCompleted: false,
-  },
-  {
-    text: "take a nap",
-    isCompleted: true,
-  },
-  {
-    text: "clean the house",
-    isCompleted: false,
-  },
-  {
-    text: "practice coding",
-    isCompleted: true,
-  },
-];
-
-const TodoList = () => {
+const TodoList = ({ todos, setTodos }) => {
   return (
     <ul>
-      {initialTodoList.map((todo) => (
+      {todos.map((todo) => (
         <li
-          key={todo.text}
+          key={todo.id}
           className="flex justify-between items-center px-8 h-[50px] text-[14px] cursor-pointer border-b border-black/[0.08]"
+          onClick={() => {
+            setTodos(
+              todos.map((t) => {
+                if (t.id === todo.id) {
+                  return {
+                    ...t,
+                    isCompleted: !t.isCompleted,
+                  };
+                }
+                return t;
+              })
+            );
+          }}
         >
           <span className={`${todo.isCompleted && "line-through text-[#ccc]"}`}>
             {todo.text}
           </span>
-          <DeleteButton />
+
+          <DeleteButton id={todo.id} setTodos={setTodos} />
         </li>
       ))}
     </ul>
