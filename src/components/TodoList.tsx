@@ -1,15 +1,9 @@
-import { useContext } from "react";
-import { TodosContext } from "../contexts/TodosContextProvider";
+import useTodosContext from "../lib/hooks.ts";
 import DeleteButton from "./DeleteButton";
 
 const TodoList = () => {
-  const context = useContext(TodosContext);
-  if (!context) {
-    throw new Error("Forgot to add provider");
-  }
+  const { todos, handleToggleTodo, handleDeleteTodo } = useTodosContext();
 
-  const { todos, handleToggleTodo, handleDeleteTodo } = context;
-  
   return (
     <ul>
       {todos.length === 0 && (
