@@ -57,7 +57,7 @@ function App() {
 
       <main
         className="relative w-[972px] h-[636px] bg-white rounded-[8px] shadow-[0_4px_4px_rgba(0,0,0,0.08)]
-      grid grid-cols-[7fr_4fr] grid-rows-[59px_1fr] overflow-hidden"
+      grid grid-cols-[7fr_4fr] grid-rows-[59px_1fr] overflow-hidden bg-opacity-65"
       >
         <Header todos={todos} />
 
