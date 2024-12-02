@@ -1,9 +1,22 @@
+import { useContext } from "react";
+import { TodosContext } from "../contexts/TodosContextProvider";
 import DeleteButton from "./DeleteButton";
 
-const TodoList = ({ todos, handleDeleteTodo, handleToggleTodo }) => {
+const TodoList = () => {
+  const context = useContext(TodosContext);
+  if (!context) {
+    throw new Error("Forgot to add provider");
+  }
+
+  const { todos, handleToggleTodo, handleDeleteTodo } = context;
+  
   return (
     <ul>
-        {todos.length === 0 && <li className="h-full flex justify-center items-center font-semibold">Start by adding a todo</li>}
+      {todos.length === 0 && (
+        <li className="h-full flex justify-center items-center font-semibold">
+          Start by adding a todo
+        </li>
+      )}
       {todos.map((todo) => (
         <li
           key={todo.id}
@@ -16,7 +29,7 @@ const TodoList = ({ todos, handleDeleteTodo, handleToggleTodo }) => {
             {todo.text}
           </span>
 
-          <DeleteButton id={todo.id} handleDeleteTodo={handleDeleteTodo} />
+          <DeleteButton id={todo.id} onDeleteTodo={handleDeleteTodo} />
         </li>
       ))}
     </ul>

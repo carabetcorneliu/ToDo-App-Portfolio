@@ -1,7 +1,11 @@
-const Counter = ({ todos }) => {
+import { useContext } from "react";
+import { TodosContext } from "../contexts/TodosContextProvider";
+
+const Counter = () => {
+  const { totalNumberOfTodos, numberOfCompletedTodos } = useContext(TodosContext);
   return (
     <p>
-      <b>{todos.filter((todo) => todo.isCompleted).length} </b>/ {todos.length} todo's completed
+      <b>{numberOfCompletedTodos} </b>/ {totalNumberOfTodos} todo's completed
     </p>
   );
 };
