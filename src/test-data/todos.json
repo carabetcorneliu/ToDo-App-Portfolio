@@ -1,0 +1,41 @@
+[{
+    "id": 1,
+    "text": "buy groceries",
+    "isCompleted": false
+  },
+  {
+    "id": 2,
+    "text": "do laundry",
+    "isCompleted": true
+  },
+  {
+    "id": 3,
+    "text": "study for tommorrow's exam",
+    "isCompleted": false
+  },
+  {
+    "id": 4,
+    "text": "go out for a walk",
+    "isCompleted": true
+  },
+  {
+    "id": 5,
+    "text": "read a few pages in the book",
+    "isCompleted": false
+  },
+  {
+    "id": 6,
+    "text": "take a nap",
+    "isCompleted": true
+  },
+  {
+    "id": 7,
+    "text": "clean the house",
+    "isCompleted": false
+  },
+  {
+    "id": 8,
+    "text": "practice coding",
+    "isCompleted": true
+  }
+]
