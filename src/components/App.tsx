@@ -50,6 +50,36 @@ const initialTodoList = [
 
 function App() {
   const [todos, setTodos] = useState(initialTodoList);
+
+  const handleAddTodo = (todoText) => {
+    setTodos((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        text: todoText,
+        isCompleted: false,
+      },
+    ]);
+  };
+
+  const handleToggleTodo = (id) => {
+    setTodos(
+      todos.map((t) => {
+        if (t.id === id) {
+          return {
+            ...t,
+            isCompleted: !t.isCompleted,
+          };
+        }
+        return t;
+      })
+    );
+  };
+
+  const handleDeleteTodo = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
   return (
     // Main page container + styling (left here for convenience reasons)
     <div className="flex justify-center items-center font-sans bg-[#f1d4b3] min-h-screen flex-col">
@@ -61,9 +91,13 @@ function App() {
       >
         <Header todos={todos} />
 
-        <TodoList todos={todos} setTodos={setTodos} />
+        <TodoList
+          todos={todos}
+          handleDeleteTodo={handleDeleteTodo}
+          handleToggleTodo={handleToggleTodo}
+        />
 
-        <Sidebar todos={todos} setTodos={setTodos} />
+        <Sidebar todos={todos} handleAddTodo={handleAddTodo} />
       </main>
 
       <Footer />
