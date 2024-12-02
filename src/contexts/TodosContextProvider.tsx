@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Todo } from "../lib/types";
 
 type TodosContextProviderProps = {
@@ -16,52 +16,53 @@ type TTodosContext = {
 
 export const TodosContext = createContext<TTodosContext | null>(null);
 
-const initialTodoList = [
-  {
-    id: 1,
-    text: "buy groceries",
-    isCompleted: false,
-  },
-  {
-    id: 2,
-    text: "do laundry",
-    isCompleted: true,
-  },
-  {
-    id: 3,
-    text: "study for tommorrow's exam",
-    isCompleted: false,
-  },
-  {
-    id: 4,
-    text: "go out for a walk",
-    isCompleted: true,
-  },
-  {
-    id: 5,
-    text: "read a few pages in the book",
-    isCompleted: false,
-  },
-  {
-    id: 6,
-    text: "take a nap",
-    isCompleted: true,
-  },
-  {
-    id: 7,
-    text: "clean the house",
-    isCompleted: false,
-  },
-  {
-    id: 8,
-    text: "practice coding",
-    isCompleted: true,
-  },
-];
+// mock data
+// const initialTodoList = [
+//   {
+//     id: 1,
+//     text: "buy groceries",
+//     isCompleted: false,
+//   },
+//   {
+//     id: 2,
+//     text: "do laundry",
+//     isCompleted: true,
+//   },
+//   {
+//     id: 3,
+//     text: "study for tommorrow's exam",
+//     isCompleted: false,
+//   },
+//   {
+//     id: 4,
+//     text: "go out for a walk",
+//     isCompleted: true,
+//   },
+//   {
+//     id: 5,
+//     text: "read a few pages in the book",
+//     isCompleted: false,
+//   },
+//   {
+//     id: 6,
+//     text: "take a nap",
+//     isCompleted: true,
+//   },
+//   {
+//     id: 7,
+//     text: "clean the house",
+//     isCompleted: false,
+//   },
+//   {
+//     id: 8,
+//     text: "practice coding",
+//     isCompleted: true,
+//   },
+// ];
 
 const TodosContextProvider = ({ children }: TodosContextProviderProps) => {
   // state
-  const [todos, setTodos] = useState<Todo[]>(initialTodoList);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   // derived state
   const totalNumberOfTodos = todos.length;
@@ -98,6 +99,18 @@ const TodosContextProvider = ({ children }: TodosContextProviderProps) => {
   const handleDeleteTodo = (id: number) => {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
+
+  // side effects
+  useEffect(() => {
+    const fetchTodos = async () => {
+      // github todos data for fetch
+      const mockupData = "https://raw.githubusercontent.com/carabetcorneliu/ToDo-App-Portfolio/refs/heads/main/src/test-data/todos.json"
+      const response = await fetch(mockupData);
+      const todos = await response.json();
+      setTodos(todos);
+    }
+    fetchTodos();
+  }, []);
 
   return (
     <TodosContext.Provider
