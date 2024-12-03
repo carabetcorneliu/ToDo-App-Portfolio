@@ -20,6 +20,7 @@ createRoot(document.getElementById("root")!).render(
           ? "https://todo-app-orpin-eta-35.vercel.app/"
           : "http://localhost:5173"
       }
+      isDangerouslyUseLocalStorage={true}
     >
       <TodosContextProvider>
         <App />
