@@ -10,8 +10,16 @@ createRoot(document.getElementById("root")!).render(
     <KindeProvider
       clientId="3f26eb0a2ab446d1bc6a20e12b4fe470"
       domain="https://carabetcorneliu.kinde.com"
-      redirectUri="http://localhost:5173"
-      logoutUri="http://localhost:5173"
+      redirectUri={
+        process.env.NODE_ENV === "production"
+          ? "https://todo-app-orpin-eta-35.vercel.app/"
+          : "http://localhost:5173"
+      }
+      logoutUri={
+        process.env.NODE_ENV === "production"
+          ? "https://todo-app-orpin-eta-35.vercel.app/"
+          : "http://localhost:5173"
+      }
     >
       <TodosContextProvider>
         <App />
