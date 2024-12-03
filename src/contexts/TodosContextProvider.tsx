@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { Todo } from "../lib/types";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 
 type TodosContextProviderProps = {
   children: React.ReactNode;
@@ -60,9 +61,18 @@ export const TodosContext = createContext<TTodosContext | null>(null);
 //   },
 // ];
 
+const getInitialTodos = () => {
+  const savedTodos = localStorage.getItem("todos");
+  if (savedTodos) {
+    return JSON.parse(savedTodos);
+  }
+  return [];
+};
+
 const TodosContextProvider = ({ children }: TodosContextProviderProps) => {
+  const { isAuthenticated } = useKindeAuth();
   // state
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(getInitialTodos);
 
   // derived state
   const totalNumberOfTodos = todos.length;
@@ -72,14 +82,19 @@ const TodosContextProvider = ({ children }: TodosContextProviderProps) => {
 
   // event handlers
   const handleAddTodo = (todoText: string) => {
-    setTodos((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        text: todoText,
-        isCompleted: false,
-      },
-    ]);
+    if (todos.length >= 3 && !isAuthenticated) {
+      alert("Log in to add more than 3 todos");
+      return;
+    } else {
+      setTodos((prev) => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          text: todoText,
+          isCompleted: false,
+        },
+      ]);
+    }
   };
 
   const handleToggleTodo = (id: number) => {
@@ -101,16 +116,21 @@ const TodosContextProvider = ({ children }: TodosContextProviderProps) => {
   };
 
   // side effects
+  // local storage
   useEffect(() => {
-    const fetchTodos = async () => {
-      // github todos data for fetch
-      const mockupData = "https://raw.githubusercontent.com/carabetcorneliu/ToDo-App-Portfolio/refs/heads/main/src/test-data/todos.json"
-      const response = await fetch(mockupData);
-      const todos = await response.json();
-      setTodos(todos);
-    }
-    fetchTodos();
-  }, []);
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+  // fetch scheme
+  // useEffect(() => {
+  //   const fetchTodos = async () => {
+  //     // github todos data for fetch
+  //     const mockupData = "https://raw.githubusercontent.com/carabetcorneliu/ToDo-App-Portfolio/refs/heads/main/src/test-data/todos.json"
+  //     const response = await fetch(mockupData);
+  //     const todos = await response.json();
+  //     setTodos(todos);
+  //   }
+  //   fetchTodos();
+  // }, []);
 
   return (
     <TodosContext.Provider
